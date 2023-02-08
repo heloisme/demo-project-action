@@ -23,8 +23,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - 
-        name: Extract Git Tag
-        run: echo "GIT_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+        name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: chamlinghelen/nginx-app
 
       -
         name: Build and push
@@ -33,4 +36,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: chamlinghelen/nginx-app:$IMAGE_TAG
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
