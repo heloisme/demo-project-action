@@ -21,9 +21,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - 
+        name: Extract Git Tag
+        run: echo "GIT_TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
       -
         name: Build and push
+        env: 
+          IMAGE_TAG: ${{ env.GIT_TAG }}
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: chamlinghelen/nginx-app:latest
+          tags: chamlinghelen/nginx-app:$IMAGE_TAG
