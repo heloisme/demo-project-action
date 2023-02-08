@@ -31,9 +31,9 @@ jobs:
 
       -
         name: Build and push
-        env: 
-          IMAGE_TAG: ${{ env.GIT_TAG }}
         uses: docker/build-push-action@v4
+        run: echo ${{ steps.meta.outputs.tags }}
+          
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
