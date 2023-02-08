@@ -32,8 +32,6 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v4
-        run: echo ${{ steps.meta.outputs.tags }}
-          
         with:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
